@@ -1,0 +1,97 @@
+<html>
+<head>
+
+    <title>ML IMAGE Classification</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename ='styles.css') }}" />
+    <link rel="shortcut icon" href="../static/TitleIcon.png" type="image/x-icon" />
+    
+    <!--load all styles -->
+    
+</head>
+<body>
+    <div class="MainContainer">
+      <div class="TopImg">
+        <!-- <h1>
+              <span
+                style="
+                  width: 100px;
+                  height: 100px;
+                  padding: 50px;
+                      background: linear-gradient(
+                    to bottom,
+                    rgb(235, 145, 10) 0%,
+                    rgba(232, 235, 80, 0.733) 75%
+                  );
+                "
+                >ML</span
+              >
+              Image Classification
+            </h1>-->
+            <img src="../static/MainIcon.png" alt="mainImage" />
+          </div> 
+      <div class="Top">
+        <div class="TopContainer">
+          <div class="MianHeading">
+            <header>
+              <h1>
+                <span style="
+                        background-color: #ff5454;
+                        padding: 0px 10px;
+                        border-radius: 15px;
+                      ">IMAGE</span>
+                <br />
+                Classification
+              </h1>
+            </header>
+          </div>
+          <div class="discription">
+            <h3>
+              PLease Insert an Image OR Link as input for this Model To validate
+              the OUTPUT
+            </h3>
+          </div>
+          <form action="/predict" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" id="real-file" hidden="hidden" />
+          <button type="button" name="file" id="custom-button">
+            Choose an Image File <i class="fa fa-folder" aria-hidden="true"></i>
+          </button>
+        </br>
+          <span id="custom-text"> No file chosen, yet.</span>
+              <script>
+            const realFileBtn = document.getElementById("real-file");
+            const customBtn = document.getElementById("custom-button");
+            const customTxt = document.getElementById("custom-text");
+            customBtn.addEventListener("click", function () {
+              realFileBtn.click();
+            });
+            realFileBtn.addEventListener("change", function () {
+              if (realFileBtn.value) {
+                customTxt.innerHTML = realFileBtn.value.match(
+                  /[\/\\]([\w\d\s\.\-\(\)]+)$/
+                )[1];
+              } else {
+                customTxt.innerHTML = "No file chosen, yet.";
+              }
+            });
+          </script>
+          <p style="
+                  font-family: Libre Baskerville, serif;
+                  font-size: 2rem;
+                  margin: 20px;
+                ">
+            OR
+          </p>
+          <div class="InputURL">
+            <input type="url" name="InputURL" id="InputURL" placeholder="Enter IMAGE url here" />
+            <div class="submitButton">
+              <button type = "submit" value="Upload">Analyse</button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" data-auto-replace-svg="nest"></script>
+</body>
+</html>
