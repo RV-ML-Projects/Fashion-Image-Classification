@@ -18,16 +18,16 @@ app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
 def allowed_file(filename):
     return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def init():
     global graph
-    graph = tf.get_default_graph()
+    graph = tf.compat.v1.get_default_graph()
 
 # Function to load and prepare the image in right shape
 def read_image(filename):
     # Load the image
-    img = load_img(filename, grayscale=True, target_size=(28, 28))
+    img = load_img(filename,  color_mode = "grayscale" , target_size=(28, 28))
     # Convert the image to array
     img = img_to_array(img)
     # Reshape the image into a sample of 1 channel
@@ -40,7 +40,7 @@ def read_image(filename):
 @app.route("/", methods=['GET', 'POST'])
 def home():
 
-    return render_template('Home.html')
+    return render_template('home.html')
 
 @app.route("/predict", methods = ['GET','POST'])
 def predict():
@@ -53,10 +53,12 @@ def predict():
                 file.save(file_path)
                 img = read_image(file_path)
                 # Predict the class of an image
+
                 with graph.as_default():
-                    model1 = load_model('clothing_classification_model.h5')
+                    model1 = load_model('Fashion_Clothing_Classificatio_Model.h5')
                     class_prediction = model1.predict_classes(img)
                     print(class_prediction)
+
                 #Map apparel category with the numerical class
                 if class_prediction[0] == 0:
                     product = "T-shirt/top"
@@ -85,5 +87,5 @@ def predict():
     return render_template('predict.html')
 
 if __name__ == "__main__":
-    # init()
+    init()
     app.run(debug=True)
